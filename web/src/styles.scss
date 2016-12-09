@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/core/theming/all-theme';
+// Plus imports for other components in your app.
+
+// Include the base styles for Angular Material core. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+@include md-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$passbook-app-primary: md-palette($md-teal);
+$passbook-app-accent:  md-palette($md-deep-purple, A400, A100, A700);
+
+// The warn palette is optional (defaults to red).
+$passbook-app-warn:    md-palette($md-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$passbook-app-theme: md-light-theme($passbook-app-primary, $passbook-app-accent, $passbook-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($passbook-app-theme);
