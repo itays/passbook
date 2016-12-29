@@ -1,3 +1,10 @@
-<p>
-  tree works!
-</p>
+<ul>
+  <li *ngFor="let branch of tree">
+    <label>{{branch.name}}</label>
+    <ul *ngIf="branch.passwords.length">
+      <li *ngFor="let pass of branch.passwords">
+        <label>{{pass.name}}</label>
+      </li>
+    </ul>
+  </li>
+</ul>

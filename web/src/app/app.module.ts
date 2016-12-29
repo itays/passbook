@@ -8,6 +8,7 @@ import { TreeComponent } from './components/tree/tree.component';
 import { PasswordDetailComponent } from './components/password-detail/password-detail.component';
 import { RouterModule } from '@angular/router';
 import { ROUTES } from './routes';
+import 'hammerjs';
 
 
 
@@ -22,7 +23,7 @@ import { ROUTES } from './routes';
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    RouterModule.forRoot(ROUTES)
+    //RouterModule.forRoot(ROUTES)
   ],
   providers: [],
   bootstrap: [AppComponent]
