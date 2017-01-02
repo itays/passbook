@@ -2,6 +2,17 @@ md-sidenav-container {
     height: 100%;
     md-sidenav.md-sidenav-opened {
         box-shadow: none;
+        background: #106CC8;
+        width: 30%;
     }
 }
 
+main {
+    height: 100%;
+    .no-pass {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+}

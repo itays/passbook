@@ -1,9 +1,9 @@
-<ul>
+<ul class="tree">
   <li *ngFor="let branch of tree">
-    <label>{{branch.name}}</label>
-    <ul *ngIf="branch.passwords.length">
+    <label class="category">{{branch.name}} </label>
+    <ul *ngIf="branch.passwords.length" class="sub-tree">
       <li *ngFor="let pass of branch.passwords">
-        <label>{{pass.name}}</label>
+        <label (click)="onSelect(pass)" [class.active]="selectedPassword && pass.name === selectedPassword.name">{{pass.name}}</label>
       </li>
     </ul>
   </li>

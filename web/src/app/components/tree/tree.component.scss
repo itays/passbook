@@ -1,0 +1,24 @@
+.tree {
+    
+    > li {
+        border-bottom: 1px solid #267ED5;
+        color: #fff;
+        label {
+            padding: 16px;
+            display: block;
+            cursor: pointer;
+            &:hover{
+                background: #267ED5;
+            }
+            &.active {
+                background: #0f3357;
+            }
+        }
+    }
+    .sub-tree {
+        label {
+            padding-left: 30px;
+        }
+        
+    }
+}
