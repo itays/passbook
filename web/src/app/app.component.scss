@@ -2,8 +2,9 @@ md-sidenav-container {
     height: 100%;
     md-sidenav.md-sidenav-opened {
         box-shadow: none;
-        background: #106CC8;
-        width: 30%;
+        background: white;
+        width: 256px;
+        border-right: 1px solid rgba(0,0,0,.14);
     }
 }
 

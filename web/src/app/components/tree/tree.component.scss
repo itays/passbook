@@ -1,17 +1,17 @@
 .tree {
     
     > li {
-        border-bottom: 1px solid #267ED5;
-        color: #fff;
+        border-bottom: 1px solid rgba(0,0,0,.14);
+        color: #212121;
         label {
             padding: 16px;
             display: block;
             cursor: pointer;
             &:hover{
-                background: #267ED5;
+                background: #eee;
             }
             &.active {
-                background: #0f3357;
+                background: #eee;
             }
         }
     }
