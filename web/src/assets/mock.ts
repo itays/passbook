@@ -50,6 +50,19 @@ export var tree = [
                     "name": "Social"
                 },
                 "__v": 0
+            },
+            {
+                "_id": "5864d12fc48dd52610f18f8e",
+                "name": "Facebook",
+                "url": "https://github.com/",
+                "username": "itaysidis@gmail.com",
+                "password": "123456789",
+                "notes": "My facebook",
+                "category": {
+                    "_id": "5864d12fc48dd52610f18f8c",
+                    "name": "Social"
+                },
+                "__v": 0
             }
         ]
     },
