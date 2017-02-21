@@ -5,4 +5,6 @@ export class Password {
     username: string;
     password: string;
     notes: string;
+    category: Object;
+    __v?: number;
 }
