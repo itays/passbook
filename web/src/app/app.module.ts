@@ -6,24 +6,21 @@ import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { PasswordDetailComponent } from './components/password-detail/password-detail.component';
-import { RouterModule } from '@angular/router';
-import { ROUTES } from './routes';
 import 'hammerjs';
-
-
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TreeComponent,
     PasswordDetailComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
-    //RouterModule.forRoot(ROUTES)
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
