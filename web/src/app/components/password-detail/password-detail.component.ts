@@ -10,11 +10,15 @@ export class PasswordDetailComponent implements OnInit {
   private _selectedPassword: Password;
 
   @Input() set selectedPassword(newPass: Password) {
-    this._selectedPassword = newPass;
+    this._selectedPassword = JSON.parse(JSON.stringify(newPass));
   }
 
   get selectedPassword(): Password {
     return this._selectedPassword;
+  }
+
+  get model() {
+    return JSON.stringify(this.selectedPassword);
   }
   constructor() { }
 
