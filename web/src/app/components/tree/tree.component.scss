@@ -1,3 +1,4 @@
+$lightgrey: #eee;
 .tree {
     
     > li {
@@ -8,10 +9,19 @@
             display: block;
             cursor: pointer;
             &:hover{
-                background: #eee;
+                background: $lightgrey;
+            }
+            
+            &.disabled {
+                &:hover {
+                    background: none;
+                }
             }
             &.active {
-                background: #eee;
+                background: $lightgrey;
+                &:hover{
+                    background: $lightgrey;
+                }
             }
         }
     }

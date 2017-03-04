@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Password } from '../../models/password';
+import { PasswordsService } from '../../services/passwords.service';
+
 @Component({
   selector: 'password-detail',
   templateUrl: './password-detail.component.html',
@@ -20,9 +22,17 @@ export class PasswordDetailComponent implements OnInit {
   get model() {
     return JSON.stringify(this.selectedPassword);
   }
-  constructor() { }
+  constructor(private ps: PasswordsService) { }
 
   ngOnInit() {
+  }
+
+  onEdit(){
+    this.ps.setIsEditing(true);
+  }
+
+  onCancel(){
+    this.ps.setIsEditing(false);
   }
 
 }

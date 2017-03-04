@@ -6,6 +6,7 @@ import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { PasswordDetailComponent } from './components/password-detail/password-detail.component';
+import { PasswordsService } from './services/passwords.service';
 import 'hammerjs';
 
 
@@ -22,7 +23,7 @@ import 'hammerjs';
     HttpModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [PasswordsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
