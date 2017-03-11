@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { TreeComponent } from './components/tree/tree.component';
-import { PasswordDetailComponent } from './components/password-detail/password-detail.component';
+import { PasswordDetailComponent , DialogResult} from './components/password-detail/password-detail.component';
 import { PasswordsService } from './services/passwords.service';
 import 'hammerjs';
 
@@ -15,6 +15,7 @@ import 'hammerjs';
     AppComponent,
     TreeComponent,
     PasswordDetailComponent,
+    DialogResult,
     AppComponent
   ],
   imports: [
@@ -23,6 +24,7 @@ import 'hammerjs';
     HttpModule,
     MaterialModule
   ],
+  entryComponents: [DialogResult],
   providers: [PasswordsService],
   bootstrap: [AppComponent]
 })

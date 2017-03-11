@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PasswordsService } from './services/passwords.service';
 
 
 @Component({
@@ -8,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   selectedPassword = null;
-  constructor(){
-
+  constructor(private ps: PasswordsService){
+    ps.onDelete$.subscribe(() => this.selectedPassword = null);
   }
   
   ngOnInit(){

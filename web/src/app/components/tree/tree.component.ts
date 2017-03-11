@@ -20,10 +20,25 @@ export class TreeComponent implements OnInit {
         this.isEditing = isEditing;
       }
     );
+    ps.onDelete$.subscribe(
+      () => {
+        this.selectedPassword = null;
+        this.getTree();
+      }
+    );
   }
 
   ngOnInit() {
-    // console.log(tree);
+    this.getTree();
+  }
+
+  getTree(){
+    this.ps.getTree().subscribe(
+      (data) => this.tree = data,
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   onSelect(pass) {
