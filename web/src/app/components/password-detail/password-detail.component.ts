@@ -12,18 +12,23 @@ export class PasswordDetailComponent implements OnInit {
 
   private _selectedPassword: Password;
   public isEditing: boolean = false;
+  public model: Password;
 
   @Input() set selectedPassword(newPass: Password) {
+    if (!newPass) {
+      this._selectedPassword = null;  
+      return;
+    }
     this._selectedPassword = JSON.parse(JSON.stringify(newPass));
   }
 
   get selectedPassword(): Password {
+    if (this._selectedPassword) {
+      this.model = JSON.parse(JSON.stringify(this._selectedPassword));
+    }
     return this._selectedPassword;
   }
 
-  get model() {
-    return JSON.stringify(this.selectedPassword);
-  }
   constructor(private ps: PasswordsService, public dialog: MdDialog) {
     ps.isEditing$.subscribe(
       isEditing => {
@@ -41,6 +46,11 @@ export class PasswordDetailComponent implements OnInit {
 
   onCancel() {
     this.ps.setIsEditing(false);
+    this.model = JSON.parse(JSON.stringify(this.selectedPassword));
+  }
+
+  onSave(){
+
   }
 
   onDelete(){
