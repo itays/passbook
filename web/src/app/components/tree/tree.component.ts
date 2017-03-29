@@ -2,7 +2,7 @@ import { Component, OnInit, Output ,EventEmitter } from '@angular/core';
 import { tree } from '../../../assets/mock';
 import { Password } from '../../models/password';
 import { PasswordsService } from '../../services/passwords.service';
-
+var _ = require('lodash');
 @Component({
   selector: 'tree',
   templateUrl: './tree.component.html',
@@ -26,6 +26,18 @@ export class TreeComponent implements OnInit {
         this.getTree();
       }
     );
+    ps.onUpdate$.subscribe((pass: any) => {
+      this.selectedPassword = pass;
+      this.tree.forEach((branch, index) => {
+        branch.passwords.forEach((pa, ind) => {
+          if (pa._id === pass._id) {
+            this.tree[index].passwords[ind] = pass;
+            return;
+          }
+        })
+      });
+      
+    });
   }
 
   ngOnInit() {

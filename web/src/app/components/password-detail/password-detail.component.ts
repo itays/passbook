@@ -50,7 +50,10 @@ export class PasswordDetailComponent implements OnInit {
   }
 
   onSave(){
-
+    this.ps.save(this.selectedPassword).subscribe((res) => {
+       this.ps.setIsEditing(false);
+       this.ps.fireOnUpdateEvent(this.selectedPassword);
+    })
   }
 
   onDelete(){

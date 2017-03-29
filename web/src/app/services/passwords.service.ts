@@ -8,11 +8,13 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class PasswordsService {
     private isEditing: Subject<boolean> = new Subject<boolean>();
     private onDelete: Subject<Password> = new Subject<Password>();
+    private onUpdate: Subject<Password> = new Subject<Password>();
     private apiUrl: string = 'http://localhost:9000/api';
     private passwordsUrl: string = this.apiUrl + '/passwords';
     private treeUrl: string = this.passwordsUrl + '/tree';
 
     onDelete$ = this.onDelete.asObservable();
+    onUpdate$ = this.onUpdate.asObservable();
     isEditing$ = this.isEditing.asObservable();
 
     constructor(private http: Http){
@@ -31,8 +33,16 @@ export class PasswordsService {
         return this.http.delete(`${this.passwordsUrl}/${pass._id}`).map(this.extractData);
     }
 
+    save(pass: Password): Observable<any> {
+        return this.http.put(`${this.passwordsUrl}/${pass._id}`, pass).map(this.extractData).catch(this.handleError);
+    }
+
     fireOnDeleteEvent(){
         this.onDelete.next();
+    }
+
+    fireOnUpdateEvent(pass: Password) {
+        this.onUpdate.next(pass);
     }
 
     handleError(err: Response) {
