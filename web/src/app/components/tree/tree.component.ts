@@ -1,15 +1,19 @@
-import { Component, OnInit, Output ,EventEmitter } from '@angular/core';
+import { Component, OnInit, Output ,EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { tree } from '../../../assets/mock';
 import { Password } from '../../models/password';
 import { PasswordsService } from '../../services/passwords.service';
+import {MdMenuTrigger} from '@angular/material';
 var _ = require('lodash');
+
 @Component({
   selector: 'tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.scss']
 })
-export class TreeComponent implements OnInit {
+export class TreeComponent implements OnInit, AfterViewInit  {
   @Output() onSelectPassword:EventEmitter<Password> = new EventEmitter();
+  @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
+  
   selectedPassword: Password = null;
   isEditing: boolean = false;
   tree = tree;
@@ -41,7 +45,14 @@ export class TreeComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.getTree();
+  }
+
+  ngAfterViewInit(){
+    this.trigger.onMenuClose.subscribe(() => {
+      
+    });
   }
 
   getTree(){
@@ -60,5 +71,15 @@ export class TreeComponent implements OnInit {
 
   isActive(pass){
     return this.selectedPassword && this.selectedPassword.name === pass.name;
+  }
+
+  onAddNewPass(){
+    this.selectedPassword = new Password();
+    this.ps.setIsEditing(true);
+    this.onSelectPassword.emit(this.selectedPassword);
+  }
+
+  onAddNewCat(){
+    
   }
 }

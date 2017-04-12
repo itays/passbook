@@ -11,6 +11,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 export class PasswordDetailComponent implements OnInit {
 
   private _selectedPassword: Password;
+  public isNew: boolean;
   public isEditing: boolean = false;
   public model: Password;
 
@@ -20,6 +21,9 @@ export class PasswordDetailComponent implements OnInit {
       return;
     }
     this._selectedPassword = JSON.parse(JSON.stringify(newPass));
+    if (!this._selectedPassword._id) {
+      this.isNew = true;
+    }
   }
 
   get selectedPassword(): Password {
@@ -46,7 +50,13 @@ export class PasswordDetailComponent implements OnInit {
 
   onCancel() {
     this.ps.setIsEditing(false);
-    this.model = JSON.parse(JSON.stringify(this.selectedPassword));
+    if (this.isNew) {
+      this.model = this._selectedPassword = null;
+      this.isNew = false;
+    }
+    else {
+      this.model = JSON.parse(JSON.stringify(this.selectedPassword));
+    }
   }
 
   onSave(){
