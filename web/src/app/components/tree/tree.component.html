@@ -1,10 +1,18 @@
-<button md-fab color="primary" [mdMenuTriggerFor]="menu"><md-icon>add</md-icon></button>
-<md-menu #menu="mdMenu">
-  <button md-menu-item (click)="onAddNewPass()">Password</button>
-  <button md-menu-item (click)="onAddNewCat()">Category</button>
-</md-menu>
+<div class="search-container">
+  <md-input-container>
+    <input mdInput placeholder="Search password..." name="searchTerm" [(ngModel)]="searchTerm" [disabled]="isEditing">
+  </md-input-container>
+  <div class="add-action">
+    <button md-fab color="primary" [mdMenuTriggerFor]="menu"><md-icon>add</md-icon></button>
+    <md-menu #menu="mdMenu">
+      <button md-menu-item (click)="onAddNewPass()">Password</button>
+      <button md-menu-item (click)="onAddNewCat()">Category</button>
+    </md-menu>
+  </div>
+
+</div>
 <ul class="tree">
-  <li *ngFor="let branch of tree">
+  <li *ngFor="let branch of tree | search:searchTerm">
     <label class="category">{{branch.name}} </label>
     <ul *ngIf="branch.passwords.length" class="sub-tree">
       <li *ngFor="let pass of branch.passwords">

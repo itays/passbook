@@ -3,11 +3,12 @@ import { tree } from '../../../assets/mock';
 import { Password } from '../../models/password';
 import { PasswordsService } from '../../services/passwords.service';
 import {MdMenuTrigger} from '@angular/material';
+import { SearchPipe } from '../../pipes/search.pipe';
 var _ = require('lodash');
 
 @Component({
   selector: 'tree',
-  templateUrl: './tree.component.html',
+  templateUrl: './tree.component.html',  
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit, AfterViewInit  {
@@ -16,6 +17,7 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   
   selectedPassword: Password = null;
   isEditing: boolean = false;
+  searchTerm: string;
   tree = tree;
   
   constructor(private ps: PasswordsService) { 
@@ -80,6 +82,6 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   }
 
   onAddNewCat(){
-    
+
   }
 }
