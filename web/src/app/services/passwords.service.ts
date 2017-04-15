@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Password } from '../models/password';
+import { Category } from '../models/category';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
@@ -29,11 +30,18 @@ export class PasswordsService {
         return this.http.get(this.treeUrl).map(this.extractData).catch(this.handleError);
     }
 
+    getCategories(): Observable<Category[]> {
+        return this.http.get(this.apiUrl+'/categories').map(this.extractData).catch(this.handleError);
+    }
+
     remove(pass: Password) : Observable<any> {
         return this.http.delete(`${this.passwordsUrl}/${pass._id}`).map(this.extractData);
     }
 
     save(pass: Password): Observable<any> {
+        if (!pass._id) {
+            return this.http.post(this.passwordsUrl, pass).map(this.extractData).catch(this.handleError);
+        }
         return this.http.put(`${this.passwordsUrl}/${pass._id}`, pass).map(this.extractData).catch(this.handleError);
     }
 

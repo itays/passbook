@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Password } from '../../models/password';
+import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
 
@@ -14,6 +15,8 @@ export class PasswordDetailComponent implements OnInit {
   public isNew: boolean;
   public isEditing: boolean = false;
   public model: Password;
+  public categories: Category[];
+  
 
   @Input() set selectedPassword(newPass: Password) {
     if (!newPass) {
@@ -42,6 +45,10 @@ export class PasswordDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ps.getCategories().subscribe(
+      (cats) => { 
+        this.categories = cats;
+      });
   }
 
   onEdit() {
@@ -61,8 +68,11 @@ export class PasswordDetailComponent implements OnInit {
 
   onSave(){
     this.ps.save(this.selectedPassword).subscribe((res) => {
-       this.ps.setIsEditing(false);
-       this.ps.fireOnUpdateEvent(this.selectedPassword);
+      if (!this._selectedPassword._id) {
+        this._selectedPassword._id = res._id;
+      }
+      this.ps.setIsEditing(false);
+      this.ps.fireOnUpdateEvent(this.selectedPassword);
     })
   }
 
@@ -81,7 +91,6 @@ export class PasswordDetailComponent implements OnInit {
       }
     });
   }
-
 }
 
 @Component({
