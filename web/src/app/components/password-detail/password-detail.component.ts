@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Password } from '../../models/password';
 import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
-
+import { MdDialog } from '@angular/material';
+import { Dialog } from '../dialog/dialog.component';
 @Component({
   selector: 'password-detail',
   templateUrl: './password-detail.component.html',
@@ -77,7 +77,10 @@ export class PasswordDetailComponent implements OnInit {
   }
 
   onDelete(){
-    let dialogRef = this.dialog.open(DialogResult, {disableClose: false});
+    let dialogData = {
+      title: 'Are you sure you want to delete it?'
+    };
+    let dialogRef = this.dialog.open(Dialog, {disableClose: false, data: dialogData});
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         
@@ -93,16 +96,4 @@ export class PasswordDetailComponent implements OnInit {
   }
 }
 
-@Component({
-  selector: 'dialog-result-example-dialog',
-  template: `
-    <h1 md-dialog-title>Are you sure you want to delete it?</h1>
-    <div md-dialog-actions>
-      <button md-button (click)="dialogRef.close(true)">Yes</button>
-      <button md-button (click)="dialogRef.close(false)">No</button>
-    </div>
-  `,
-})
-export class DialogResult {
-  constructor(public dialogRef: MdDialogRef<DialogResult>) {}
-}
+
