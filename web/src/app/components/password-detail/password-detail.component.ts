@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import { Password } from '../../models/password';
 import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdSlideToggle } from '@angular/material';
+
 import { Dialog } from '../dialog/dialog.component';
 @Component({
   selector: 'password-detail',
@@ -16,7 +17,10 @@ export class PasswordDetailComponent implements OnInit {
   public isEditing: boolean = false;
   public model: Password;
   public categories: Category[];
-  
+  showGenerator: boolean = false;
+  newPass: string;
+  passLength: number = 8;
+  @ViewChild(MdSlideToggle) slideToggle: MdSlideToggle;
 
   @Input() set selectedPassword(newPass: Password) {
     if (!newPass) {
@@ -57,6 +61,7 @@ export class PasswordDetailComponent implements OnInit {
 
   onCancel() {
     this.ps.setIsEditing(false);
+    this.showGenerator = false;
     if (this.isNew) {
       this.model = this._selectedPassword = null;
       this.isNew = false;
@@ -93,6 +98,48 @@ export class PasswordDetailComponent implements OnInit {
         );
       }
     });
+  }
+
+  toggleGenerator(slideToggleChange) {
+    this.showGenerator = slideToggleChange.checked;
+  }
+
+  onGenerate(){
+    let specialChars = '!S%@#';
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' + specialChars;
+    let pass = '';
+    while (pass.length < this.passLength) {
+      let index = Math.floor(Math.random() * chars.length);
+      let char = chars[index];
+      if (this.ifCharExists(char, pass)) {
+        continue;
+      }
+      else {
+        pass = pass + char;
+      }
+    }
+    let reg = /[!S%@#]/;
+    if (!reg.test(pass)) {
+      let randomIndex = Math.floor(Math.random() * specialChars.length);
+      pass = pass.substr(0, pass.length - 1) + specialChars[randomIndex];
+    }
+    this.newPass = pass;
+  }
+
+  chooseGenerated(){
+    this.slideToggle.toggle();
+    this.showGenerator = false;
+    this._selectedPassword.password = this.newPass;
+  }
+
+  ifCharExists(char, pass){
+    if (!pass.length){
+      return false;
+    }
+    if (pass.indexOf(char) !== -1){
+      return true;
+    }
+    return false;
   }
 }
 
