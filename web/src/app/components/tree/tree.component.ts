@@ -3,7 +3,7 @@ import { tree } from '../../../assets/mock';
 import { Password } from '../../models/password';
 import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
-import { MdMenuTrigger, MdDialog, MdDialogRef} from '@angular/material';
+import { MdMenuTrigger, MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
 import { SearchPipe } from '../../pipes/search.pipe';
 
 
@@ -85,9 +85,14 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   }
 
   onAddNewCat(){
-    let dialogRef = this.dialog.open(AddCategoryDialog);
+    let dialogData = new MdDialogConfig();
+    dialogData.data = {
+      categories: this.categories
+    };
+    dialogData.disableClose = true;
+    let dialogRef = this.dialog.open(AddCategoryDialog, dialogData);
     dialogRef.afterClosed().subscribe(result => {
-      
+      console.log(result);
     });
   }
 }
@@ -96,16 +101,28 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   selector: 'add-category-dialog',
   template: `
     <h1 md-dialog-title>Add a new category</h1>
-    <div md-dialog-content>
-      <md-input-container>
-        <input mdInput placeholder="New Password" name="newpass"   />
-      </md-input-container>
-    </div>
-    <div md-dialog-actions>
-      <button md-button (click)="dialogRef.close(true)">Yes</button>
-      <button md-button (click)="dialogRef.close(false)">No</button>
-    </div>`,
+    <form #newCategoryForm="ngForm">
+      <div md-dialog-content>
+        <md-input-container>
+          <input mdInput placeholder="New Category" name="newpass" [(ngModel)]="newPass" #newpass="ngModel" required />
+        </md-input-container>
+      </div>
+      <div md-dialog-actions>
+        <button type="button" md-raised-button color="primary" (click)="onAddCategory()" [disabled]="!newCategoryForm.form.valid">Add</button>
+        <button type="button" md-raised-button (click)="dialogRef.close()">Cancel</button>
+      </div>
+    </form>`,
 })
 export class AddCategoryDialog {
-  constructor(public dialogRef: MdDialogRef<TreeComponent>) {}
+  categories: Category[];
+  newPass: string
+  constructor(public dialogRef: MdDialogRef<AddCategoryDialog>, private ps: PasswordsService) {
+    this.categories = this.dialogRef._containerInstance.dialogConfig.data.categories;
+  }
+
+  onAddCategory(){
+    
+    this.dialogRef.close({success: true});
+    
+  }
 }
