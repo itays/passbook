@@ -1,10 +1,12 @@
-import { Component, OnInit, Output ,EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, Input ,EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { tree } from '../../../assets/mock';
 import { Password } from '../../models/password';
+import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
-import {MdMenuTrigger} from '@angular/material';
+import { MdMenuTrigger, MdDialog, MdDialogRef} from '@angular/material';
 import { SearchPipe } from '../../pipes/search.pipe';
-var _ = require('lodash');
+
+
 
 @Component({
   selector: 'tree',
@@ -12,6 +14,7 @@ var _ = require('lodash');
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit, AfterViewInit  {
+  @Input() categories: Category[];
   @Output() onSelectPassword:EventEmitter<Password> = new EventEmitter();
   @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
   
@@ -20,7 +23,7 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   searchTerm: string;
   tree = tree;
   
-  constructor(private ps: PasswordsService) { 
+  constructor(private ps: PasswordsService, public dialog: MdDialog) { 
     ps.isEditing$.subscribe(
       isEditing => {
         this.isEditing = isEditing;
@@ -82,6 +85,27 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   }
 
   onAddNewCat(){
-
+    let dialogRef = this.dialog.open(AddCategoryDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
   }
+}
+
+@Component({
+  selector: 'add-category-dialog',
+  template: `
+    <h1 md-dialog-title>Add a new category</h1>
+    <div md-dialog-content>
+      <md-input-container>
+        <input mdInput placeholder="New Password" name="newpass"   />
+      </md-input-container>
+    </div>
+    <div md-dialog-actions>
+      <button md-button (click)="dialogRef.close(true)">Yes</button>
+      <button md-button (click)="dialogRef.close(false)">No</button>
+    </div>`,
+})
+export class AddCategoryDialog {
+  constructor(public dialogRef: MdDialogRef<TreeComponent>) {}
 }

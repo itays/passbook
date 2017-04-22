@@ -3,8 +3,8 @@ import { Password } from '../../models/password';
 import { Category } from '../../models/category';
 import { PasswordsService } from '../../services/passwords.service';
 import { MdDialog, MdSlideToggle } from '@angular/material';
-
 import { Dialog } from '../dialog/dialog.component';
+
 @Component({
   selector: 'password-detail',
   templateUrl: './password-detail.component.html',
@@ -16,7 +16,7 @@ export class PasswordDetailComponent implements OnInit {
   public isNew: boolean;
   public isEditing: boolean = false;
   public model: Password;
-  public categories: Category[];
+  @Input() categories: Category[];
   showGenerator: boolean = false;
   newPass: string;
   passLength: number = 8;
@@ -49,10 +49,6 @@ export class PasswordDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ps.getCategories().subscribe(
-      (cats) => { 
-        this.categories = cats;
-      });
   }
 
   onEdit() {

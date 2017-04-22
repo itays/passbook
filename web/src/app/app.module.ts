@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
-import { TreeComponent } from './components/tree/tree.component';
+import { TreeComponent, AddCategoryDialog } from './components/tree/tree.component';
 import { PasswordDetailComponent } from './components/password-detail/password-detail.component';
 import { Dialog } from './components/dialog/dialog.component';
 import { PasswordsService } from './services/passwords.service';
@@ -17,6 +17,7 @@ import 'hammerjs';
   declarations: [
     AppComponent,
     TreeComponent,
+    AddCategoryDialog,
     PasswordDetailComponent,
     Dialog,
     SearchPipe,
@@ -29,7 +30,7 @@ import 'hammerjs';
     HttpModule,
     MaterialModule
   ],
-  entryComponents: [Dialog],
+  entryComponents: [Dialog, AddCategoryDialog],
   providers: [PasswordsService],
   bootstrap: [AppComponent]
 })
