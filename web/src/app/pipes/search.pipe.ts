@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-var _ = require('lodash');
 
 
 @Pipe({name: 'search'})
@@ -10,8 +9,10 @@ export class SearchPipe implements PipeTransform {
       return value;
     }
     searchTerm = searchTerm.toLowerCase();
-    return _.filter(JSON.parse(JSON.stringify(value)), (cat) => {
-      cat.passwords = _.filter(cat.passwords, pass => pass.name.toLowerCase().includes(searchTerm));
+    return JSON.parse(JSON.stringify(value)).filter((cat) => {
+      cat.passwords = cat.passwords.filter((pass) => {
+        return pass.name.toLowerCase().includes(searchTerm);
+      });
       return cat.passwords.length > 0;
     });
   }
