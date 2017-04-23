@@ -101,28 +101,33 @@ export class TreeComponent implements OnInit, AfterViewInit  {
   selector: 'add-category-dialog',
   template: `
     <h1 md-dialog-title>Add a new category</h1>
+    {{isExists}}
     <form #newCategoryForm="ngForm">
       <div md-dialog-content>
         <md-input-container>
-          <input mdInput placeholder="New Category" name="newpass" [(ngModel)]="newPass" #newpass="ngModel" required />
+          <input mdInput placeholder="New Category" name="newpass" [(ngModel)]="newPass" #newpass="ngModel" (keyup)="checkExists()"required />
         </md-input-container>
       </div>
       <div md-dialog-actions>
-        <button type="button" md-raised-button color="primary" (click)="onAddCategory()" [disabled]="!newCategoryForm.form.valid">Add</button>
-        <button type="button" md-raised-button (click)="dialogRef.close()">Cancel</button>
+        <button type="button" md-raised-button color="primary" (click)="onAddCategory()" [disabled]="!newCategoryForm.form.valid || isExists">Add</button>
+        <button type="button" md-raised-button (click)="dialogRef.close(false)">Cancel</button>
       </div>
     </form>`,
 })
 export class AddCategoryDialog {
+  @ViewChild('newCategoryForm') newCategoryForm;
   categories: Category[];
   newPass: string
+  categoriesNames;
+  isExists: boolean = false;
   constructor(public dialogRef: MdDialogRef<AddCategoryDialog>, private ps: PasswordsService) {
     this.categories = this.dialogRef._containerInstance.dialogConfig.data.categories;
+    this.categoriesNames = this.categories.map((c) => c.name.toLowerCase());
   }
-
   onAddCategory(){
-    
-    this.dialogRef.close({success: true});
-    
+    this.dialogRef.close({success: true}); 
+  }
+  checkExists(){
+    this.isExists = this.categoriesNames.includes(this.newPass.toLowerCase());
   }
 }
