@@ -53,6 +53,12 @@ export class PasswordsService {
         this.onUpdate.next(pass);
     }
 
+    addCategory(name: string): Observable<Response>{
+        return this.http.post(this.apiUrl+'/categories', { name: name})
+        .map(this.extractData)
+        .catch(this.handleError);
+    }
+
     handleError(err: Response) {
         return Observable.throw(err);
     }

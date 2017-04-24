@@ -92,7 +92,9 @@ export class TreeComponent implements OnInit, AfterViewInit  {
     dialogData.disableClose = true;
     let dialogRef = this.dialog.open(AddCategoryDialog, dialogData);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if (result) {
+        this.getTree();
+      }
     });
   }
 }
@@ -100,19 +102,23 @@ export class TreeComponent implements OnInit, AfterViewInit  {
 @Component({
   selector: 'add-category-dialog',
   template: `
-    <h1 md-dialog-title>Add a new category</h1>
-    {{isExists}}
-    <form #newCategoryForm="ngForm">
-      <div md-dialog-content>
-        <md-input-container>
-          <input mdInput placeholder="New Category" name="newpass" [(ngModel)]="newPass" #newpass="ngModel" (keyup)="checkExists()"required />
-        </md-input-container>
-      </div>
-      <div md-dialog-actions>
-        <button type="button" md-raised-button color="primary" (click)="onAddCategory()" [disabled]="!newCategoryForm.form.valid || isExists">Add</button>
-        <button type="button" md-raised-button (click)="dialogRef.close(false)">Cancel</button>
-      </div>
-    </form>`,
+    <svg *ngIf="isOnProgress" class="spinner" width="50px" height="50px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
+    <div *ngIf="!isOnProgress">
+      <h1 md-dialog-title>Add a new category</h1>
+      <form #newCategoryForm="ngForm">  
+        <div md-dialog-content>
+          <md-input-container>
+            <input mdInput placeholder="New Category" name="newpass" [(ngModel)]="newPass" #newpass="ngModel" (keyup)="checkExists()"required />
+          </md-input-container>
+        </div>
+        <div md-dialog-actions>
+          <button type="button" md-raised-button color="primary" (click)="onAddCategory()" [disabled]="!newCategoryForm.form.valid || isExists">Add</button>
+          <button type="button" md-raised-button (click)="dialogRef.close(false)">Cancel</button>
+        </div>
+      </form>
+    </div>`,
 })
 export class AddCategoryDialog {
   @ViewChild('newCategoryForm') newCategoryForm;
@@ -120,12 +126,22 @@ export class AddCategoryDialog {
   newPass: string
   categoriesNames;
   isExists: boolean = false;
+  isOnProgress: boolean = false;
   constructor(public dialogRef: MdDialogRef<AddCategoryDialog>, private ps: PasswordsService) {
     this.categories = this.dialogRef._containerInstance.dialogConfig.data.categories;
     this.categoriesNames = this.categories.map((c) => c.name.toLowerCase());
   }
   onAddCategory(){
-    this.dialogRef.close({success: true}); 
+    this.isOnProgress = true;
+    this.ps.addCategory(this.newPass).subscribe(
+      (data) => {
+        this.isOnProgress = false;
+        this.dialogRef.close(true);
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
   }
   checkExists(){
     this.isExists = this.categoriesNames.includes(this.newPass.toLowerCase());
