@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material'
+import { MdDialogRef, MdDialogConfig } from '@angular/material'
 @Component({
   selector: 'dialog-result-example-dialog',
   template: `
-    <h1 md-dialog-title>{{dialogRef.config.data.title}}</h1>
-    <div md-dialog-content>{{dialogRef.config.data.body}}</div>
+    <h1 md-dialog-title>{{config.data.title}}</h1>
+    <div md-dialog-content>{{config.data.body}}</div>
     <div md-dialog-actions>
       <button md-button (click)="dialogRef.close(true)">Yes</button>
       <button md-button (click)="dialogRef.close(false)">No</button>
@@ -12,5 +12,8 @@ import { MdDialogRef } from '@angular/material'
   `,
 })
 export class Dialog {
-  constructor(public dialogRef: MdDialogRef<Dialog>) {}
+  config: MdDialogConfig;
+  constructor(public dialogRef: MdDialogRef<Dialog>) {
+    this.config = this.dialogRef._containerInstance.dialogConfig;
+  }
 }
