@@ -73,6 +73,7 @@ export class PasswordDetailComponent implements OnInit {
         this._selectedPassword._id = res._id;
       }
       this.ps.setIsEditing(false);
+      this.isNew = false;
       this.ps.fireOnUpdateEvent(this.selectedPassword);
     })
   }

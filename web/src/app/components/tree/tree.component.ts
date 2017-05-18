@@ -32,10 +32,15 @@ export class TreeComponent implements OnInit, AfterViewInit  {
     ps.onDelete$.subscribe(
       () => {
         this.selectedPassword = null;
+        this.ps.setIsEditing(false);
         this.getTree();
       }
     );
     ps.onUpdate$.subscribe((pass: any) => {
+      if (!this.selectedPassword._id) { // new pass scenario
+        this.getTree();
+        return;
+      }
       this.selectedPassword = pass;
       this.tree.forEach((branch, index) => {
         branch.passwords.forEach((pa, ind) => {
