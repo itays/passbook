@@ -11,15 +11,14 @@ import { Category } from './models/category';
 export class AppComponent implements OnInit {
   selectedPassword = null;
   public categories: Category[];
-  constructor(private ps: PasswordsService){
+  constructor(private ps: PasswordsService) {
     ps.onDelete$.subscribe(() => this.selectedPassword = null);
   }
-  
-  ngOnInit(){
+
+  ngOnInit() {
     this.ps.getCategories().subscribe(
-      (cats) => { 
+      (cats) => {
         this.categories = cats;
       });
   }
-  
 }
