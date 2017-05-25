@@ -1,13 +1,13 @@
 <md-sidenav-container>
     <md-sidenav #start mode="side" opened="true" class="tree-side" disableClose="true">
-      <tree (onSelectPassword)="selectedPassword = $event" [categories]="categories"></tree>
+      <app-tree (onSelectPassword)="selectedPassword = $event" [categories]="categories"></app-tree>
     </md-sidenav>
     
     <main>
        <div class="no-pass" *ngIf="!selectedPassword">
          <h1>Select a password</h1>
        </div>
-       <password-detail [selectedPassword]="selectedPassword" [categories]="categories"></password-detail>
+       <app-password-detail [selectedPassword]="selectedPassword" [categories]="categories"></app-password-detail>
     </main>
 
 </md-sidenav-container>

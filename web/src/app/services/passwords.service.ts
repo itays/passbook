@@ -18,7 +18,7 @@ export class PasswordsService {
     onUpdate$ = this.onUpdate.asObservable();
     isEditing$ = this.isEditing.asObservable();
 
-    constructor(private http: Http){
+    constructor(private http: Http) {
 
     }
 
@@ -31,10 +31,10 @@ export class PasswordsService {
     }
 
     getCategories(): Observable<Category[]> {
-        return this.http.get(this.apiUrl+'/categories').map(this.extractData).catch(this.handleError);
+        return this.http.get(this.apiUrl + '/categories').map(this.extractData).catch(this.handleError);
     }
 
-    remove(pass: Password) : Observable<any> {
+    remove(pass: Password): Observable<any> {
         return this.http.delete(`${this.passwordsUrl}/${pass._id}`).map(this.extractData);
     }
 
@@ -45,7 +45,7 @@ export class PasswordsService {
         return this.http.put(`${this.passwordsUrl}/${pass._id}`, pass).map(this.extractData).catch(this.handleError);
     }
 
-    fireOnDeleteEvent(){
+    fireOnDeleteEvent() {
         this.onDelete.next();
     }
 
@@ -53,8 +53,8 @@ export class PasswordsService {
         this.onUpdate.next(pass);
     }
 
-    addCategory(name: string): Observable<Response>{
-        return this.http.post(this.apiUrl+'/categories', { name: name})
+    addCategory(name: string): Observable<Response> {
+        return this.http.post(this.apiUrl + '/categories', { name: name})
         .map(this.extractData)
         .catch(this.handleError);
     }
